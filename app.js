@@ -1,9 +1,8 @@
-
 // Array of objects to store talent data for each experience level
 const experienceLevels = [
   {
     level: "Entry-level",
-    localJobOpenings: 15,
+    localJobOpenings: 5,
     availableTalent: 50
   },
   {
@@ -13,7 +12,7 @@ const experienceLevels = [
   },
   {
     level: "Senior-level",
-    localJobOpenings: 5,
+    localJobOpenings: 20,
     availableTalent: 10
   }
 ];
