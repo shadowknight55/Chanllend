@@ -6,5 +6,5 @@ The cybersecurity industry is grappling with a persistent talent gap, despite an
 This gap is particularly pronounced in mid-level roles, which typically require **2-10 years of experience**. These positions are critical for organizations looking to enhance their cybersecurity posture amidst growing threats. The shortage of skilled personnel not only puts businesses at risk of cyberattacks but also hampers innovation and growth within the industry.
 
 Links to doc and slides with resarch
-https://docs.google.com/document/d/1aICHqN93Viyxc7gFuHG467fNZFYaKzP9lohKCA6zczA/edit?tab=t.0
-https://docs.google.com/presentation/d/1joEeyyADKkvv8ibOT2ZIvfUBmdy7WH14w1oulEk8S-Q/edit#slide=id.p
+https://docs.google.com/presentation/d/1joEeyyADKkvv8ibOT2ZIvfUBmdy7WH14w1oulEk8S-Q/edit#slide=id.g312f1e1f57c_0_6
+https://docs.google.com/document/d/1aICHqN93Viyxc7gFuHG467fNZFYaKzP9lohKCA6zczA/edit?tab=t.0#heading=h.3p5ba38phit4
