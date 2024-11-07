@@ -1,75 +1,48 @@
 // Array of objects to store talent data for each experience level
 const experienceLevels = [
-  {
-    level: "Entry-level",
-    localJobOpenings: 5,
-    availableTalent: 50
-  },
-  {
-    level: "Mid-level",
-    localJobOpenings: 15,
-    availableTalent: 30
-  },
-  {
-    level: "Senior-level",
-    localJobOpenings: 25,
-    availableTalent: 10
-  }
+  { level: "Entry-level", localJobOpenings: 5, availableTalent: 50 },
+  { level: "Mid-level", localJobOpenings: 15, availableTalent: 30 },
+  { level: "Senior-level", localJobOpenings: 25, availableTalent: 10 }
 ];
 
-// Function to display talent data for each experience level
+// Function to display talent data and the largest shortage
 function displayTalentData(data) {
   const talentDataContainer = document.getElementById('talent-data');
-  let totalJobOpenings = 0;
-
-  data.forEach(item => {
-    const levelDiv = document.createElement('div');
-    levelDiv.classList.add('experience-level');
-    
-    const levelContent = `
-      <h2>Experience Level: ${item.level}</h2>
-      <p>Job Openings: ${item.localJobOpenings}</p>
-      <p>Available Talent: ${item.availableTalent}</p>
-    `;
-    levelDiv.innerHTML = levelContent;
-    
-    talentDataContainer.appendChild(levelDiv);
-    totalJobOpenings += item.localJobOpenings;
-  });
-
   const totalOpeningsDiv = document.getElementById('total-job-openings');
-  totalOpeningsDiv.textContent = `Total Job Openings across all levels: ${totalJobOpenings}`;
-}
+  const shortageContainer = document.getElementById('largest-shortage');
 
-// Function to find the experience level with the highest gap between job openings and available talent
-function findLargestOpeningsShortage(data) {
+  let totalJobOpenings = 0;
   let maxGap = 0;
-  let levelWithMaxGap = '';
+  let largestShortage = '';
 
-  data.forEach(item => {
-    const gap = item.localJobOpenings - item.availableTalent;
+  // Loop to create content for each experience level and calculate total openings and shortage
+  data.forEach(({ level, localJobOpenings, availableTalent }) => {
+    // Append data for each level
+    talentDataContainer.innerHTML += `
+      <div class="experience-level">
+        <h2>Experience Level: ${level}</h2>
+        <p>Job Openings: ${localJobOpenings}</p>
+        <p>Available Talent: ${availableTalent}</p>
+      </div>`;
+
+    // Add to total job openings
+    totalJobOpenings += localJobOpenings;
+
+    // Calculate gap and update largest shortage if applicable
+    const gap = localJobOpenings - availableTalent;
     if (gap > maxGap) {
       maxGap = gap;
-      levelWithMaxGap = item.level;
+      largestShortage = level;
     }
   });
 
-  return { level: levelWithMaxGap, gap: maxGap };
-}
-
-// Function to display the experience level with the largest shortage on the HTML page
-function displayLargestShortage(data) {
-  const shortageData = findLargestOpeningsShortage(data);
-  const shortageContainer = document.getElementById('largest-shortage');
-  
-  // Display the level with the largest gap and its gap value
+  // Display total job openings and largest shortage
+  totalOpeningsDiv.textContent = `Total Job Openings across all levels: ${totalJobOpenings}`;
   shortageContainer.innerHTML = `
     <h2>Largest Job Shortage</h2>
-    <p>Experience Level: ${shortageData.level}</p>
-    <p>Gap Value: ${shortageData.gap}</p>
-  `;
+    <p>Experience Level: ${largestShortage}</p>
+    <p>Gap Value: ${maxGap}</p>`;
 }
 
-// Call the functions to display data on the HTML page
+// Call the function to display data on the HTML page
 displayTalentData(experienceLevels);
-displayLargestShortage(experienceLevels);
