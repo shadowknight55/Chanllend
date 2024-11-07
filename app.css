@@ -54,3 +54,24 @@
     margin-top: 20px;
   }
   
+  /* Styling for the largest shortage section */
+  #largest-shortage {
+    margin-top: 20px;
+    padding: 15px;
+    border: 2px solid #ff6666;
+    border-radius: 5px;
+    background-color: #ffe6e6;
+    text-align: center;
+  }
+  
+  #largest-shortage h2 {
+    font-size: 1.2em;
+    color: #cc0000;
+    margin-bottom: 8px;
+  }
+  
+  #largest-shortage p {
+    font-size: 1em;
+    color: #333;
+  }
+  
