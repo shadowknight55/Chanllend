@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Quiz</title>
+    <link rel="stylesheet" href="Quizz/data.css">
+</head>
+<body>
+    <div class="home-container">
+        <h1>Welcome to the Cybersecurity Quiz</h1>
+        <p>Select your difficulty level:</p>
+        <div class="button-container">
+            <button onclick="loadQuiz('entry')">Entry-Level</button>
+           <!-- <button onclick="loadQuiz('mid')">Mid-Level</button>-->
+            <!--<button onclick="loadQuiz('senior')">Senior-Level</button>-->
+        </div>
+    </div>
+
+    <div id="quiz-container" style="display:none;">
+        <div id="question-container">
+            <!-- Questions will be displayed here -->
+        </div>
+        <button id="next-button" onclick="nextQuestion()">Next</button>
+        <button id="done-button" onclick="finishQuiz()" style="display:none;">Done</button>
+    </div>
+
+    <script src="Quizz/data.js"></script>
+</body>
+</html>
