@@ -1,9 +1,12 @@
+
+
 // Array of objects to store talent data for each experience level
-const experienceLevels = [
-  { level: "Entry-level", localJobOpenings: 5, availableTalent: 50 },
-  { level: "Mid-level", localJobOpenings: 15, availableTalent: 30 },
-  { level: "Senior-level", localJobOpenings: 25, availableTalent: 10 }
-];
+  const experienceLevels = [
+      { level: "Entry-level", localJobOpenings: 500_00, availableTalent: 200_00 },   // Gap: 30,000
+      { level: "Mid-level", localJobOpenings: 150_000, availableTalent: -500_00 },   // Gap: 200,000
+      { level: "Senior-level", localJobOpenings: 100_000, availableTalent: 700_00 }  // Gap: 30,000
+  ];
+  
 
 // Function to display talent data and the largest shortage
 function displayTalentData(data) {
