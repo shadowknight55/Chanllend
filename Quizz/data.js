@@ -140,29 +140,132 @@ const midQuestions = [
     }
 ];
 
-let currentQuiz = [];
+const seniorQuestions = [
+    {
+        question: "What is the primary purpose of a DMZ (Demilitarized Zone) in a network?",
+        options: [
+            { text: "To separate internal and external network traffic", correct: true },
+            { text: "To protect critical assets from public exposure", correct: true },
+            { text: "To encrypt all data entering the network", correct: false },
+            { text: "To manage user authentication", correct: false }
+        ]
+    },
+
+        {
+            question: "What is the primary role of a SIEM (Security Information and Event Management) system?",
+            options: [
+                { text: "Detecting security incidents in real time", correct: true },
+                { text: "Storing and analyzing security data", correct: false },
+                { text: "Managing user access to applications", correct: false },
+                { text: "Creating backups of system configurations", correct: false }
+            ]
+        },
+        {
+            question: "Which of the following are key components of a Zero Trust model?",
+            options: [
+                { text: "Continuous verification of access", correct: true },
+                { text: "Full network trust by internal users", correct: false },
+                { text: "Password-only user authentication", correct: false },
+                { text: "Limiting access to only essential resources", correct: false }
+            ]
+        },
+        {
+            question: "What is lateral movement in the context of a cyber attack?",
+            options: [
+                { text: "Moving from one system to another within a network", correct: true },
+                { text: "Escaping a sandbox environment", correct: false },
+                { text: "Executing ransomware on endpoint devices", correct: false },
+                { text: "Running unauthorized scripts on servers", correct: false }
+            ]
+        },
+        {
+            question: "What is a common sign of a phishing attack?",
+            options: [
+                { text: "Suspicious or misleading URLs", correct: true },
+                { text: "Use of common business logos", correct: false },
+                { text: "Links to reputable websites", correct: false },
+                { text: "Good spelling and grammar", correct: false }
+            ]
+        },
+        {
+            question: "What does the principle of least privilege entail in cybersecurity?",
+            options: [
+                { text: "Users should have only the minimal level of access required to perform their job", correct: true },
+                { text: "Access should be granted based on seniority within an organization", correct: false },
+                { text: "Access is given to all system resources to ensure operational efficiency", correct: false },
+                { text: "Privilege escalation is allowed during emergencies", correct: false }
+            ]
+        },
+        {
+            question: "What is a primary function of a firewall?",
+            options: [
+                { text: "To block unauthorized access to networks", correct: true },
+                { text: "To scan for malware on endpoints", correct: false },
+                { text: "To backup user data", correct: false },
+                { text: "To manage encryption keys", correct: false }
+            ]
+        },
+        {
+            question: "Which tool is commonly used for vulnerability scanning?",
+            options: [
+                { text: "Nessus", correct: true },
+                { text: "Wireshark", correct: false },
+                { text: "Metasploit", correct: false },
+                { text: "John the Ripper", correct: false }
+            ]
+        },
+        {
+            question: "What does an APT (Advanced Persistent Threat) typically target?",
+            options: [
+                { text: "Sensitive data within organizations", correct: true },
+                { text: "Low-level system bugs", correct: false },
+                { text: "Non-essential software vulnerabilities", correct: false },
+                { text: "Server performance metrics", correct: false }
+            ]
+        },
+        {
+            question: "Which of the following is most important when conducting a penetration test?",
+            options: [
+                { text: "Obtaining explicit written permission from the target organization", correct: true },
+                { text: "Hacking into as many systems as possible", correct: false },
+                { text: "Finding and exploiting every vulnerability on the network", correct: false },
+                { text: "Using brute force on user credentials", correct: false }
+            ]
+        },
+        {
+            question: "What is the purpose of encryption in cybersecurity?",
+            options: [
+                { text: "To protect data from unauthorized access", correct: true },
+                { text: "To speed up data transfer", correct: false },
+                { text: "To compress files for storage", correct: false },
+                { text: "To monitor data flow", correct: false }
+            ]
+        }
+    ];
+    
+
 let currentQuestionIndex = 0;
 let score = 0;
+let selectedQuestions = [];
 
 function loadQuiz(level) {
-    // Set the quiz questions based on the selected level
-    currentQuiz = level === 'entry' ? entryQuestions : midQuestions;
-    currentQuestionIndex = 0;
-    score = 0;
     document.querySelector('.home-container').style.display = 'none';
     document.getElementById('quiz-container').style.display = 'block';
-    displayQuestion();
-    showBriefDescription(level);
-}
 
-function showBriefDescription(level) {
-    const descriptionContainer = document.getElementById('description-container');
-    descriptionContainer.innerHTML = `You selected the ${level} quiz level. Select the correct answer(s) to proceed through the quiz.`;
-    descriptionContainer.style.display = 'block';
+    // Load questions based on the selected level
+    if (level === 'entry') {
+        selectedQuestions = entryQuestions;
+    } else if (level === 'mid') {
+        selectedQuestions = midQuestions;
+    } else if (level === 'senior') {
+        selectedQuestions = seniorQuestions;
+    }
+    
+    displayQuestion();
 }
 
 function displayQuestion() {
-    const question = currentQuiz[currentQuestionIndex];
+    const question = selectedQuestions[currentQuestionIndex];
     const questionContainer = document.getElementById('question-container');
     questionContainer.innerHTML = `
         <p>${question.question}</p>
@@ -170,11 +273,12 @@ function displayQuestion() {
             <label>
                 <input type="radio" name="answer" value="${index}">
                 ${option.text}
-            </label>
+            </label><br>
         `).join('')}
     `;
 
-    if (currentQuestionIndex === currentQuiz.length - 1) {
+    // Show "Done" button only on the last question, otherwise show "Next"
+    if (currentQuestionIndex === selectedQuestions.length - 1) {
         document.getElementById('done-button').style.display = 'block';
         document.getElementById('next-button').style.display = 'none';
     } else {
@@ -184,24 +288,33 @@ function displayQuestion() {
 }
 
 function nextQuestion() {
+    const selectedOptionIndex = document.querySelector('input[name="answer"]:checked');
+    if (!selectedOptionIndex) {
+        alert("Please select an answer before moving to the next question.");
+        return;
+    }
+
+    // Check if the selected answer is correct
+    const question = selectedQuestions[currentQuestionIndex];
+    if (question.options[selectedOptionIndex.value].correct) {
+        score++;
+    }
+
+    // Move to the next question
     currentQuestionIndex++;
     displayQuestion();
 }
 
-function checkAnswer() {
-    const selectedOption = document.querySelector('input[name="answer"]:checked');
-    if (!selectedOption) return;
-
-    const question = currentQuiz[currentQuestionIndex];
-    const selectedAnswer = question.options[selectedOption.value];
-    
-    if (selectedAnswer.correct) {
-        score++;
-    }
+function finishQuiz() {
+    // Calculate and display score
+    alert(`Quiz finished! You scored ${score} out of ${selectedQuestions.length}`);
+    resetQuiz();
 }
 
-function finishQuiz() {
-    alert(`Quiz finished! You scored ${score} out of ${currentQuiz.length}`);
+function resetQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    selectedQuestions = [];
     document.getElementById('quiz-container').style.display = 'none';
     document.querySelector('.home-container').style.display = 'block';
 }
