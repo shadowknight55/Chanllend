@@ -8,6 +8,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    overflow: hidden;
 }
 
 .home-container {
@@ -119,5 +120,37 @@ button#next-button, button#done-button {
 
     button {
         font-size: 16px;
+    }
+}
+
+/* Star rating pop-up styling */
+#star-rating {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 24px;
+    width: 80%;
+    max-width: 500px;
+}
+
+#star-rating span {
+    font-size: 48px;
+    margin: 10px;
+}
+
+/* Animation for star rating pop-up */
+@keyframes showRating {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }

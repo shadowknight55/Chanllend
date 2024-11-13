@@ -244,77 +244,93 @@ const seniorQuestions = [
     ];
     
 
-let currentQuestionIndex = 0;
-let score = 0;
-let selectedQuestions = [];
-
-function loadQuiz(level) {
-    document.querySelector('.home-container').style.display = 'none';
-    document.getElementById('quiz-container').style.display = 'block';
-
-    // Load questions based on the selected level
-    if (level === 'entry') {
-        selectedQuestions = entryQuestions;
-    } else if (level === 'mid') {
-        selectedQuestions = midQuestions;
-    } else if (level === 'senior') {
-        selectedQuestions = seniorQuestions;
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let selectedQuestions = [];
+    let quizQuestions = []; // This will hold the selected quiz questions.
+    
+    function loadQuiz(level) {
+        // Select the correct set of questions based on the level.
+        if (level === 'entry') {
+            quizQuestions = entryQuestions;
+        } else if (level === 'mid') {
+            quizQuestions = midQuestions;
+        } else if (level === 'senior') {
+            quizQuestions = seniorQuestions;
+        }
+    
+        // Hide home container and display the quiz container.
+        document.querySelector('.home-container').style.display = 'none';
+        document.getElementById('quiz-container').style.display = 'block';
+    
+        // Start displaying questions.
+        displayQuestion();
     }
     
-    displayQuestion();
-}
-
-function displayQuestion() {
-    const question = selectedQuestions[currentQuestionIndex];
-    const questionContainer = document.getElementById('question-container');
-    questionContainer.innerHTML = `
-        <p>${question.question}</p>
-        ${question.options.map((option, index) => `
-            <label>
-                <input type="radio" name="answer" value="${index}">
-                ${option.text}
-            </label><br>
-        `).join('')}
-    `;
-
-    // Show "Done" button only on the last question, otherwise show "Next"
-    if (currentQuestionIndex === selectedQuestions.length - 1) {
-        document.getElementById('done-button').style.display = 'block';
-        document.getElementById('next-button').style.display = 'none';
-    } else {
-        document.getElementById('done-button').style.display = 'none';
-        document.getElementById('next-button').style.display = 'block';
+    function displayQuestion() {
+        const question = quizQuestions[currentQuestionIndex];
+        const questionContainer = document.getElementById('question-container');
+        questionContainer.innerHTML = `
+            <p>${question.question}</p>
+            ${question.options.map((option, index) => `
+                <label>
+                    <input type="checkbox" name="answer" value="${index}" onclick="checkAnswer(${index})">
+                    ${option.text}
+                </label><br>
+            `).join('')}
+        `;
+    
+        // Show or hide next button based on question index.
+        if (currentQuestionIndex === quizQuestions.length - 1) {
+            document.getElementById('done-button').style.display = 'block';
+            document.getElementById('next-button').style.display = 'none';
+        } else {
+            document.getElementById('done-button').style.display = 'none';
+            document.getElementById('next-button').style.display = 'block';
+        }
     }
-}
-
-function nextQuestion() {
-    const selectedOptionIndex = document.querySelector('input[name="answer"]:checked');
-    if (!selectedOptionIndex) {
-        alert("Please select an answer before moving to the next question.");
-        return;
+    
+    function nextQuestion() {
+        currentQuestionIndex++;
+        displayQuestion();
     }
-
-    // Check if the selected answer is correct
-    const question = selectedQuestions[currentQuestionIndex];
-    if (question.options[selectedOptionIndex.value].correct) {
-        score++;
+    
+    function checkAnswer(selectedIndex) {
+        const question = quizQuestions[currentQuestionIndex];
+        const selectedOption = question.options[selectedIndex];
+        
+        if (selectedOption.correct) {
+            score++;
+        }
     }
-
-    // Move to the next question
-    currentQuestionIndex++;
-    displayQuestion();
-}
-
-function finishQuiz() {
-    // Calculate and display score
-    alert(`Quiz finished! You scored ${score} out of ${selectedQuestions.length}`);
-    resetQuiz();
-}
-
-function resetQuiz() {
-    currentQuestionIndex = 0;
-    score = 0;
-    selectedQuestions = [];
-    document.getElementById('quiz-container').style.display = 'none';
-    document.querySelector('.home-container').style.display = 'block';
-}
+    
+    function finishQuiz() {
+        document.getElementById('quiz-container').style.display = 'none';
+        showStarRating();
+    }
+    
+    function showStarRating() {
+        let stars = '';
+        if (score === quizQuestions.length) {
+            stars = '★★★★★';
+        } else if (score >= quizQuestions.length * 0.75) {
+            stars = '★★★★☆';
+        } else if (score >= quizQuestions.length * 0.5) {
+            stars = '★★★☆☆';
+        } else if (score >= quizQuestions.length * 0.25) {
+            stars = '★★☆☆☆';
+        } else {
+            stars = '★☆☆☆☆';
+        }
+    
+        const ratingPopup = document.getElementById('star-rating');
+        ratingPopup.innerHTML = `
+            <p>You scored ${score} out of ${quizQuestions.length}</p>
+            <p>Rating: ${stars}</p>
+        `;
+        ratingPopup.style.display = 'block';
+        ratingPopup.style.animation = 'showRating 1s ease-in-out';
+    }
+    
+    document.getElementById('done-button').onclick = finishQuiz;
+    
