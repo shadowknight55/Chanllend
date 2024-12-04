@@ -1,35 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cybersecurity Quiz</title>
-    <link rel="stylesheet" href="Quizz/data.css">
+    <!-- Metadata for the webpage -->
+    <meta charset="UTF-8"> <!-- Defines character encoding as UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Makes the webpage responsive for different devices -->
+    <title>Cybersecurity Quiz</title> <!-- The title displayed on the browser tab -->
+
+    <!-- Linking the CSS file for styling -->
+    <link rel="stylesheet" href="Quizz/data.css"> <!-- Path to the external CSS file -->
 </head>
 <body>
+    <!-- Container for the home screen -->
     <div class="home-container">
+        <!-- Main heading -->
         <h1>Welcome to the Cybersecurity Quiz</h1>
+
+        <!-- Instruction text -->
         <p>Select your difficulty level:</p>
+
+        <!-- Buttons for selecting the difficulty level -->
         <div class="button-container">
+            <!-- Button to load Entry-Level quiz -->
             <button onclick="loadQuiz('entry')">Entry-Level</button>
+
+            <!-- Button to load Mid-Level quiz -->
             <button onclick="loadQuiz('mid')">Mid-Level</button>
+
+            <!-- Button to load Senior-Level quiz -->
             <button onclick="loadQuiz('senior')">Senior-Level</button>
         </div>
     </div>
 
+    <!-- Container for displaying the quiz questions (initially hidden) -->
     <div id="quiz-container" style="display:none;">
+        <!-- Section where quiz questions will be dynamically inserted -->
         <div id="question-container">
-            <!-- Questions will be displayed here -->
+            <!-- Placeholder for the questions -->
         </div>
+
+        <!-- Button to go to the next question -->
         <button id="next-button" onclick="nextQuestion()">Next</button>
+
+        <!-- Button to finish the quiz (hidden at the start) -->
         <button id="done-button" onclick="finishQuiz()" style="display:none;">Done</button>
     </div>
 
-    <!-- Star rating pop-up -->
+    <!-- Pop-up for displaying star ratings and scores after the quiz -->
     <div id="star-rating">
-        <!-- The rating and score will be displayed here -->
+        <!-- Placeholder for the star rating and score -->
     </div>
 
-    <script src="Quizz/data.js"></script>
+    <!-- Linking the JavaScript file for functionality -->
+    <script src="Quizz/data.js"></script> <!-- Path to the external JavaScript file -->
 </body>
 </html>
