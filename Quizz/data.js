@@ -266,10 +266,32 @@ const seniorQuestions = [
         // Start displaying questions.
         displayQuestion();
     }
+    function loadQuiz(level) {
+        // Select the correct set of questions based on the level of the quiz.
+        if (level === 'entry') {
+            quizQuestions = entryQuestions; // Load entry-level questions.
+        } else if (level === 'mid') {
+            quizQuestions = midQuestions; // Load mid-level questions.
+        } else if (level === 'senior') {
+            quizQuestions = seniorQuestions; // Load senior-level questions.
+        }
+    
+        // Hide the home screen and display the quiz container.
+        document.querySelector('.home-container').style.display = 'none';
+        document.getElementById('quiz-container').style.display = 'block';
+    
+        // Begin by displaying the first question.
+        displayQuestion();
+    }
     
     function displayQuestion() {
+        // Retrieve the current question based on the index.
         const question = quizQuestions[currentQuestionIndex];
+    
+        // Get the HTML container for displaying the question.
         const questionContainer = document.getElementById('question-container');
+    
+        // Populate the container with the question and its options.
         questionContainer.innerHTML = `
             <p>${question.question}</p>
             ${question.options.map((option, index) => `
@@ -280,7 +302,7 @@ const seniorQuestions = [
             `).join('')}
         `;
     
-        // Show or hide next button based on question index.
+        // Show the "done" button only for the last question; otherwise, show the "next" button.
         if (currentQuestionIndex === quizQuestions.length - 1) {
             document.getElementById('done-button').style.display = 'block';
             document.getElementById('next-button').style.display = 'none';
@@ -291,46 +313,57 @@ const seniorQuestions = [
     }
     
     function nextQuestion() {
+        // Move to the next question in the quiz.
         currentQuestionIndex++;
-        displayQuestion();
+        displayQuestion(); // Display the next question.
     }
     
     function checkAnswer(selectedIndex) {
+        // Get the current question object.
         const question = quizQuestions[currentQuestionIndex];
+    
+        // Get the selected option by its index.
         const selectedOption = question.options[selectedIndex];
-        
+    
+        // If the selected option is correct, increment the score.
         if (selectedOption.correct) {
             score++;
         }
     }
     
     function finishQuiz() {
+        // Hide the quiz container after the user finishes the quiz.
         document.getElementById('quiz-container').style.display = 'none';
+    
+        // Display the star rating based on the user's score.
         showStarRating();
     }
     
     function showStarRating() {
+        // Determine the star rating based on the score as a proportion of total questions.
         let stars = '';
         if (score === quizQuestions.length) {
-            stars = '★★★★★';
+            stars = '★★★★★'; // Perfect score.
         } else if (score >= quizQuestions.length * 0.75) {
-            stars = '★★★★☆';
+            stars = '★★★★☆'; // High score.
         } else if (score >= quizQuestions.length * 0.5) {
-            stars = '★★★☆☆';
+            stars = '★★★☆☆'; // Medium score.
         } else if (score >= quizQuestions.length * 0.25) {
-            stars = '★★☆☆☆';
+            stars = '★★☆☆☆'; // Low score.
         } else {
-            stars = '★☆☆☆☆';
+            stars = '★☆☆☆☆'; // Very low score.
         }
     
+        // Display the star rating and score in a popup.
         const ratingPopup = document.getElementById('star-rating');
         ratingPopup.innerHTML = `
             <p>You scored ${score} out of ${quizQuestions.length}</p>
             <p>Rating: ${stars}</p>
         `;
-        ratingPopup.style.display = 'block';
-        ratingPopup.style.animation = 'showRating 1s ease-in-out';
+        ratingPopup.style.display = 'block'; // Show the rating popup.
+        ratingPopup.style.animation = 'showRating 1s ease-in-out'; // Add animation to the popup.
     }
     
+    // Assign the finishQuiz function to the "done" button's click event.
     document.getElementById('done-button').onclick = finishQuiz;
     
